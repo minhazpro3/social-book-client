@@ -26,12 +26,6 @@ const Feeds = () => {
               />
             </div>
           </div>
-          {/* <div className="border-bottom border-secondary ms-5 border border-2 mt-1"></div>
-          <div className="d-flex justify-content-around mx-5">
-            <p className="text-danger">Live</p>
-            <p className="text-success">Photo/Video</p>
-            <p className="text-warning">Feelings/Activity</p>
-          </div> */}
         </div>
       </div>
       <CreatePost show={show} handleClose={handleClose} />

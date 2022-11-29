@@ -26,10 +26,10 @@ export const Login = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const resetPass = (user) => {
-    console.log(user.email);
-    resetPassword(user.email);
-  };
+  // const resetPass = (user) => {
+  //   console.log(user.email);
+  //   resetPassword(user.email);
+  // };
 
   // <div className="d-flex justify-content-center my-5 py-5">
   //     <Spinner animation="grow" />
@@ -69,14 +69,14 @@ export const Login = () => {
               />
             </div>
           </form>
-          <div className="d-flex justify-content-center">{"signError"}</div>
+          {/* <div className="d-flex justify-content-center">{"signError"}</div> */}
           <div className="d-flex justify-content-center">
             {" "}
             <p className="text-white">
               New user <Link to="register">Register</Link>
             </p>
             <p className="text-white ms-2 ">
-              <button onClick={resetPass} to="forget-password" className=" ">
+              <button to="forget-password" className=" ">
                 Forget
               </button>
             </p>

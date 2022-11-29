@@ -10,6 +10,7 @@ const Register = () => {
   const { register, handleSubmit, reset } = useForm();
   const { user, setUser, createUser, updateName, setIsLoading } = useFirebase();
   const [warning, setWarning] = useState(true);
+  const [formError, setFormError] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const url = location.state?.from || "/home";
@@ -29,6 +30,7 @@ const Register = () => {
         .finally(() => setIsLoading(false));
     } else {
       setWarning(false);
+      setFormError(true);
     }
     updateName(data.name);
   };
@@ -82,7 +84,7 @@ const Register = () => {
                 type="submit"
               />
             </div>
-            {"formError" ? (
+            {formError ? (
               <div className="d-flex justify-content-center">
                 {" "}
                 <small className=" text-uppercase text-danger px-2 py-2 text-center">

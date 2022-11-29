@@ -22,6 +22,7 @@ const CreatePost = ({ show, handleClose }) => {
       if (res.data.data.acknowledged) {
         alert("success");
         reset();
+        setBtnHide(true);
       }
     });
   };

@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Feeds from "../components/Feeds";
+import FeedsCard from "../components/FeedsCard";
 import useFirebase from "./../Hooks/useFirebase";
 
 const Home = () => {
-  const { user } = useFirebase();
-  console.log(user);
   return (
     <div>
       Home
       <Feeds />
+      <FeedsCard />
     </div>
   );
 };
