@@ -1,11 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { Spinner } from "react-bootstrap";
+import useAuth from "./../Hooks/useAuth";
+import useFirebase from "./../Hooks/useFirebase";
 
 const Register = () => {
   const { register, handleSubmit, reset } = useForm();
+  const { user, setUser, createUser, updateName, setIsLoading } = useFirebase();
+  const [warning, setWarning] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const url = location.state?.from || "/home";
   const onSubmit = async (data) => {
-    console.log(data);
+    if (data.password === data.password2) {
+      await createUser(data.email, data.password)
+        .then((userCredential) => {
+          // setUser(userCredential.user);
+
+          console.log(userCredential.user);
+          navigate(url);
+          setIsLoading(true);
+        })
+        .catch((error) => {
+          setWarning(false);
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      setWarning(false);
+    }
+    updateName(data.name);
   };
   return (
     <div className="container  ">
@@ -57,7 +82,18 @@ const Register = () => {
                 type="submit"
               />
             </div>
+            {"formError" ? (
+              <div className="d-flex justify-content-center">
+                {" "}
+                <small className=" text-uppercase text-danger px-2 py-2 text-center">
+                  Doesn't match password
+                </small>
+              </div>
+            ) : (
+              ""
+            )}
           </form>
+          <div className="d-flex justify-content-center"> </div>
           <div className="d-flex justify-content-center">
             {" "}
             <p className="text-white">

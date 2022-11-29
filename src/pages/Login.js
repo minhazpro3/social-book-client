@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { Spinner } from "react-bootstrap";
+import useFirebase from "../Hooks/useFirebase";
 
 export const Login = () => {
+  const { setUser, setIsLoading, loginEmailPassword, resetPassword } =
+    useFirebase();
   const { register, handleSubmit, reset } = useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const url = location.state?.from || "/home";
+  const [warning, setWarning] = useState(false);
   const onSubmit = async (data) => {
-    console.log(data);
+    await loginEmailPassword(data.email, data.password)
+      .then((userCredential) => {
+        setUser(userCredential.user);
+        navigate(url);
+        setIsLoading(true);
+      })
+      .catch((error) => {
+        setWarning(true);
+      })
+      .finally(() => setIsLoading(false));
   };
+
+  const resetPass = (user) => {
+    console.log(user.email);
+    resetPassword(user.email);
+  };
+
+  // <div className="d-flex justify-content-center my-5 py-5">
+  //     <Spinner animation="grow" />
+  //   </div>
   return (
     <div className="container mt-5 ">
       <div className="d-flex justify-content-center">
@@ -42,10 +69,16 @@ export const Login = () => {
               />
             </div>
           </form>
+          <div className="d-flex justify-content-center">{"signError"}</div>
           <div className="d-flex justify-content-center">
             {" "}
             <p className="text-white">
-              Don't have an account. <Link to="register">Register</Link>
+              New user <Link to="register">Register</Link>
+            </p>
+            <p className="text-white ms-2 ">
+              <button onClick={resetPass} to="forget-password" className=" ">
+                Forget
+              </button>
             </p>
           </div>
         </div>
