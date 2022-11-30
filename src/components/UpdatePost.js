@@ -4,7 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import useFirebase from "../Hooks/useFirebase";
 
-const CreatePost = ({ show, handleClose }) => {
+const UpdatePost = ({ show, handleClose, id }) => {
   const { user } = useFirebase();
   const [imgUrl, setImgUrl] = useState();
   const [btnHide, setBtnHide] = useState(true);
@@ -15,16 +15,15 @@ const CreatePost = ({ show, handleClose }) => {
     const formData1 = {
       description: data.description,
       image: imgUrl,
-      status: "Processing",
     };
 
     axios
-      .post(
-        "https://social-app-server-production.up.railway.app/api/v1/user",
+      .put(
+        `https://social-app-server-production.up.railway.app/api/v1/user/${id}`,
         formData1
       )
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.data.acknowledged);
         if (res.data.data.acknowledged) {
           alert("success");
           reset();
@@ -56,7 +55,7 @@ const CreatePost = ({ show, handleClose }) => {
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <h4 className="px-2  text-success font-bold  bg-opacity-25 py-2">
-            Create post !
+            Update post !
           </h4>
         </Modal.Header>
         <Modal.Body>
@@ -91,7 +90,7 @@ const CreatePost = ({ show, handleClose }) => {
                     className="btn btn-success px-4 w-100"
                     disabled={btnHide ? true : false}
                     type="submit"
-                    value="Post"
+                    value="Update"
                   />
                 </div>
               </form>
@@ -111,4 +110,4 @@ const CreatePost = ({ show, handleClose }) => {
   );
 };
 
-export default CreatePost;
+export default UpdatePost;

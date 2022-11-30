@@ -4,8 +4,8 @@ import profileImg from "../images/image.png";
 import useFirebase from "../Hooks/useFirebase";
 
 const Feeds = () => {
-  const [show, setShow] = useState(false);
   const { user } = useFirebase();
+  const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
